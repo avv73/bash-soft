@@ -10,7 +10,7 @@ namespace BashSoft
     {
         static void Main()
         {
-
+            IOManager.TraverseDirectory(@"E:\GitHub Reps");
         }
     }
 }
