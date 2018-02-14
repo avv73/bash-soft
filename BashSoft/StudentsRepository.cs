@@ -88,5 +88,25 @@ namespace BashSoft
 
             return false;
         }
+
+        public static void GetStudentScoresFromCourse(string courseName, string username)
+        {
+            if (IsQueryForStudentPossible(courseName, username))
+            {
+                OutputWriter.PrintStudent(new KeyValuePair<string, List<int>>(username, studentsByCourse[courseName][username]));
+            }
+        }
+
+        public static void GetAllStudentsFromCourse(string courseName)
+        {
+            if (IsQueryForCoursePossible(courseName))
+            {
+                OutputWriter.WriteMessageOnNewLine($"{courseName}:");
+                foreach (KeyValuePair<string, List<int>> studentMarkEntry in studentsByCourse[courseName])
+                {
+                    OutputWriter.PrintStudent(studentMarkEntry);
+                }
+            }
+        }
     }
 }

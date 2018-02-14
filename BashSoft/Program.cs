@@ -10,7 +10,8 @@ namespace BashSoft
     {
         static void Main()
         {
-            IOManager.TraverseDirectory(@"E:\GitHub Reps");
+            StudentsRepository.InitializeData();
+            StudentsRepository.GetStudentScoresFromCourse("Unity", "Ivan");
         }
     }
 }
