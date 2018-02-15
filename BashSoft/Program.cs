@@ -10,8 +10,7 @@ namespace BashSoft
     {
         static void Main()
         {
-            StudentsRepository.InitializeData();
-            StudentsRepository.GetStudentScoresFromCourse("Unity", "Ivan");
+            Tester.CompareContent(@"E:\GitHub Reps\bash-soft\assignment documents\BashSoft-Resources\test2.txt", @"E:\GitHub Reps\bash-soft\assignment documents\BashSoft-Resources\test3.txt");
         }
     }
 }
