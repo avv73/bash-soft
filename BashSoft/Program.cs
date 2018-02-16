@@ -10,7 +10,15 @@ namespace BashSoft
     {
         static void Main()
         {
-            Tester.CompareContent(@"E:\GitHub Reps\bash-soft\assignment documents\BashSoft-Resources\test2.txt", @"E:\GitHub Reps\bash-soft\assignment documents\BashSoft-Resources\test3.txt");
+            while (true)
+            {
+                IOManager.TraverseDirectory(1);
+
+                string userInput = Console.ReadLine();
+
+                IOManager.ChangeCurrentDirectoryRelative(userInput);
+            }
+
         }
     }
 }
