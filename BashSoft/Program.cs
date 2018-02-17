@@ -10,15 +10,15 @@ namespace BashSoft
     {
         static void Main()
         {
-            while (true)
-            {
-                IOManager.TraverseDirectory(1);
-
-                string userInput = Console.ReadLine();
-
-                IOManager.ChangeCurrentDirectoryRelative(userInput);
-            }
-
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
+            IOManager.ChangeCurrentDirectoryRelative("..");
         }
     }
 }
