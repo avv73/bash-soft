@@ -36,6 +36,9 @@ namespace BashSoft
                 case "readDb":
                     TryReadDatabaseFromFile(input, data);
                     break;
+                case "show":
+                    TryShowWantedData(input, data);
+                    break;
                 case "help":
                     TryGetHelp();
                     break;
@@ -60,6 +63,25 @@ namespace BashSoft
             }
         }
 
+        private static void TryShowWantedData(string input, string[] data)
+        {
+            if (data.Length == 2)
+            {
+                string courseName = data[1];
+                StudentsRepository.GetAllStudentsFromCourse(courseName);
+            }
+            else if (data.Length == 3)
+            {
+                string courseName = data[1];
+                string userName = data[2];
+                StudentsRepository.GetStudentScoresFromCourse(courseName, userName);
+            }
+            else
+            {
+                DisplayInvalidCommandMessage(input);
+            }
+        }
+
         private static void TryGetHelp()
         {
             OutputWriter.WriteMessageOnNewLine($"{new string('_', 100)}");
@@ -69,6 +91,7 @@ namespace BashSoft
             OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "change directory - changeDirREl:relative path"));
             OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "change directory - changeDir:absolute path"));
             OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "read students data base - readDb: path"));
+            OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "show information about given course or a given username for a course from data base - show: courseName (username) \\ username may be omitted"));
             OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "filter {courseName} excelent/average/poor  take 2/5/all students - filterExcelent (the output is written on the console)"));
             OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "order increasing students - order {courseName} ascending/descending take 20/10/all (the output is written on the console)"));
             OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "download file - download: path of file (saved in current directory)"));
