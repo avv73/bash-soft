@@ -1,28 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BashSoft
+public class InputReader
 {
-    public static class InputReader
+    private const string endCommand = "quit";
+    private CommandInterpreter interpreter;
+    
+    public InputReader(CommandInterpreter interpreter)
     {
-        private const string endCommand = "quit";
+        this.interpreter = interpreter;
+    }
 
-        public static void StartReadingCommands()
+    public void StartReadingCommands()
+    {
+        OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
+        string input = Console.ReadLine();
+        input = input.Trim();
+
+        while (input != endCommand)
         {
+            interpreter.InterpretCommand(input);
             OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
-            string input = Console.ReadLine();
+            input = Console.ReadLine();
             input = input.Trim();
-
-            while (input != endCommand)
-            {
-                CommandInterpreter.InterpretCommand(input);
-                OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
-                input = Console.ReadLine();
-                input = input.Trim();
-            }
         }
     }
 }
+
