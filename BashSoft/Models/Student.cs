@@ -1,44 +1,75 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class Student
 {
-    public string userName;
-    public Dictionary<string, Course> enrolledCourses;
-    public Dictionary<string, double> marksByCourseName;
+    private string userName;
+    private Dictionary<string, Course> enrolledCourses;
+    private Dictionary<string, double> marksByCourseName;
+
+    public string UserName
+    {
+        get
+        {
+            return userName;
+        }
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(nameof(userName), ExceptionMessages.NullOrEmptyValue);
+            }
+
+            userName = value;
+        }
+    }
+
+    public IReadOnlyDictionary<string, Course> EnrolledCourses
+    {
+        get
+        {
+            return enrolledCourses;
+        }
+    }
+
+    public IReadOnlyDictionary<string, double> MarksByCourseName
+    {
+        get
+        {
+            return marksByCourseName;
+        }
+    }
 
     public Student(string userName)
     {
-        this.userName = userName;
+        UserName = userName;
         enrolledCourses = new Dictionary<string, Course>();
         marksByCourseName = new Dictionary<string, double>();
     }
 
     public void EnrollInCourse(Course course)
     {
-        if (enrolledCourses.ContainsKey(course.name))
+        if (enrolledCourses.ContainsKey(course.Name))
         {
-            OutputWriter.DisplayException(string.Format(
+            throw new InvalidOperationException(string.Format(
                 ExceptionMessages.StudentAlreadyEnrolledInGivenCourse,
-                userName, course.name));
-            return;
+                userName, course.Name));
         }
 
-        enrolledCourses.Add(course.name, course);
+        enrolledCourses.Add(course.Name, course);
     }
 
     public void SetMarkOnCourse(string courseName, params int[] scores)
     {
         if (!enrolledCourses.ContainsKey(courseName))
         {
-            OutputWriter.DisplayException(ExceptionMessages.NotEnrolledInCourse);
-            return;
+            throw new InvalidOperationException(ExceptionMessages.NotEnrolledInCourse);
         }
 
         if (scores.Length > Course.NumberOfTasksOnExam)
         {
-            OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
-            return;
+            throw new InvalidOperationException(ExceptionMessages.InvalidNumberOfScores);
         }
 
         marksByCourseName.Add(courseName, CalculateMark(scores));

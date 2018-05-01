@@ -25,8 +25,7 @@ public class StudentsRepository
     {
         if (isDataInitialized)
         {
-            OutputWriter.DisplayException(ExceptionMessages.DataAlreadyInitializedException);
-            return;
+            throw new InvalidOperationException(ExceptionMessages.DataAlreadyInitializedException);
         }
 
         courses = new Dictionary<string, Course>();
@@ -39,7 +38,7 @@ public class StudentsRepository
     {
         if (!isDataInitialized)
         {
-            OutputWriter.DisplayException(ExceptionMessages.DataNotInitializedExceptionMessage);
+            throw new InvalidOperationException(ExceptionMessages.DataNotInitializedExceptionMessage);
         }
 
         students = null;
@@ -143,7 +142,7 @@ public class StudentsRepository
 
     private bool IsQueryForStudentPossible(string courseName, string studentUserName)
     {
-        if (IsQueryForCoursePossible(courseName) && courses[courseName].studentsByName.ContainsKey(studentUserName))
+        if (IsQueryForCoursePossible(courseName) && courses[courseName].StudentsByName.ContainsKey(studentUserName))
         {
             return true;
         }
@@ -159,7 +158,7 @@ public class StudentsRepository
     {
         if (IsQueryForStudentPossible(courseName, username))
         {
-            OutputWriter.PrintStudent(new KeyValuePair<string, double>(username, courses[courseName].studentsByName[username].marksByCourseName[courseName]));
+            OutputWriter.PrintStudent(new KeyValuePair<string, double>(username, courses[courseName].StudentsByName[username].MarksByCourseName[courseName]));
         }
     }
 
@@ -168,7 +167,7 @@ public class StudentsRepository
         if (IsQueryForCoursePossible(courseName))
         {
             OutputWriter.WriteMessageOnNewLine($"{courseName}:");
-            foreach (KeyValuePair<string, Student> studentMarksEntry in courses[courseName].studentsByName)
+            foreach (KeyValuePair<string, Student> studentMarksEntry in courses[courseName].StudentsByName)
             {
                 GetStudentScoresFromCourse(courseName, studentMarksEntry.Key);
             }
@@ -181,10 +180,10 @@ public class StudentsRepository
         {
             if (studentsToTake == null)
             {
-                studentsToTake = courses[courseName].studentsByName.Count;
+                studentsToTake = courses[courseName].StudentsByName.Count;
             }
 
-            Dictionary<string, double> marks = courses[courseName].studentsByName.ToDictionary(x => x.Key, x => x.Value.marksByCourseName[courseName]);
+            Dictionary<string, double> marks = courses[courseName].StudentsByName.ToDictionary(x => x.Key, x => x.Value.MarksByCourseName[courseName]);
 
             filter.FilterAndTake(marks, givenFilter, studentsToTake.Value);
         }
@@ -196,10 +195,10 @@ public class StudentsRepository
         {
             if (studentsToTake == null)
             {
-                studentsToTake = courses[courseName].studentsByName.Count;
+                studentsToTake = courses[courseName].StudentsByName.Count;
             }
 
-            Dictionary<string, double> marks = courses[courseName].studentsByName.ToDictionary(x => x.Key, x => x.Value.marksByCourseName[courseName]);
+            Dictionary<string, double> marks = courses[courseName].StudentsByName.ToDictionary(x => x.Key, x => x.Value.MarksByCourseName[courseName]);
 
             sorter.OrderAndTake(marks, givenFilter, studentsToTake.Value);
         }

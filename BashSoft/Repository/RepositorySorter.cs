@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class RepositorySorter
@@ -20,7 +21,7 @@ public class RepositorySorter
         }
         else
         {
-            OutputWriter.DisplayException(ExceptionMessages.InvalidComparisonQuery);
+            throw new ArgumentException(ExceptionMessages.InvalidComparisonQuery);
         }
     }
 
@@ -31,6 +32,5 @@ public class RepositorySorter
             OutputWriter.PrintStudent(student);
         }
     }
-
 }
 

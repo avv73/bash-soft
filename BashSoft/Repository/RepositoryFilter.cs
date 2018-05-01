@@ -20,7 +20,7 @@ public class RepositoryFilter
         }
         else
         {
-            OutputWriter.DisplayException(ExceptionMessages.InvalidStudentFilter);
+            throw new ArgumentException(ExceptionMessages.InvalidStudentFilter);
         }
     }
 
@@ -40,7 +40,6 @@ public class RepositoryFilter
                 counterForPrinted++;
             }
         }
-
     }
 }
 

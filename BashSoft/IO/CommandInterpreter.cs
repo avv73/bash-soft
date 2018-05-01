@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 public class CommandInterpreter
 {
@@ -17,6 +19,36 @@ public class CommandInterpreter
     {
         string[] data = input.Split(' ');
         string command = data[0];
+        command = command.ToLower();
+
+        try
+        {
+            ParseCommand(input, command, data);
+        }
+        catch (InvalidOperationException ioex)
+        {
+            OutputWriter.DisplayException(ioex.Message);
+        }
+        catch (DirectoryNotFoundException dnfex)
+        {
+            OutputWriter.DisplayException(dnfex.Message);
+        }
+        catch (ArgumentOutOfRangeException aoorex)
+        {
+            OutputWriter.DisplayException(aoorex.Message);
+        }
+        catch (ArgumentException aex)
+        {
+            OutputWriter.DisplayException(aex.Message);
+        }
+        catch (Exception ex)
+        {
+            OutputWriter.DisplayException(ex.Message);
+        }
+    }
+
+    private void ParseCommand(string input, string command, string[] data)
+    {
         switch (command)
         {
             case "open":
@@ -31,13 +63,13 @@ public class CommandInterpreter
             case "cmp":
                 TryCompareFiles(input, data);
                 break;
-            case "cdRel":
+            case "cdrel":
                 TryChangePathRelatively(input, data);
                 break;
-            case "cdAbs":
+            case "cdabs":
                 TryChangePathAbsolute(input, data);
                 break;
-            case "readDb":
+            case "readdb":
                 TryReadDatabaseFromFile(input, data);
                 break;
             case "show":
@@ -55,13 +87,13 @@ public class CommandInterpreter
             case "dropdb":
                 TryDropDb(input, data);
                 break;
-            case "decOrder":
+            case "decorder":
                 // TODO: implement soon
                 break;
             case "download":
                 // TODO: implement soon
                 break;
-            case "downloadAsynch":
+            case "downloadasynch":
                 // TODO: implement soon
                 break;
             default:

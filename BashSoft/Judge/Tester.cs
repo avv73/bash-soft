@@ -27,9 +27,9 @@ public class Tester
             PrintOutput(mismatches, hasMismatch, mismatchPath);
             OutputWriter.WriteMessageOnNewLine("Files read!");
         }
-        catch (FileNotFoundException)
+        catch (DirectoryNotFoundException dnfex)
         {
-            OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
+            throw new DirectoryNotFoundException(ExceptionMessages.InvalidPath);
         }
     }
 
@@ -42,16 +42,7 @@ public class Tester
                 OutputWriter.WriteMessageOnNewLine(line);
             }
 
-            try
-            {
-                File.WriteAllLines(mismatchPath, mismatches);
-            }
-            catch (FileNotFoundException)
-            {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
-            }
-
-            return;
+            File.WriteAllLines(mismatchPath, mismatches);
         }
         else
         {

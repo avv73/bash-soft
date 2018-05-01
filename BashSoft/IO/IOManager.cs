@@ -54,7 +54,7 @@ public class IOManager
         }
         catch (ArgumentException)
         {
-            OutputWriter.DisplayException(ExceptionMessages.ForbiddenSymbolsContainedInName);
+            throw new ArgumentException(ExceptionMessages.ForbiddenSymbolsContainedInName);
         }
     }
 
@@ -71,7 +71,7 @@ public class IOManager
             }
             catch (ArgumentOutOfRangeException)
             {
-                OutputWriter.DisplayException(ExceptionMessages.UnableToGoHigherInPartitionHierarchy);
+                throw new ArgumentOutOfRangeException("indexOfLastSlash", ExceptionMessages.UnableToGoHigherInPartitionHierarchy);
             }
         }
         else
@@ -86,8 +86,7 @@ public class IOManager
     {
         if (!Directory.Exists(absolutePath))
         {
-            OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
-            return;
+            throw new DirectoryNotFoundException(ExceptionMessages.InvalidPath);
         }
 
         SessionData.currentPath = absolutePath;
