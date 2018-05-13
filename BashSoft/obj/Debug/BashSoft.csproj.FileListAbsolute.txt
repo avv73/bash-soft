@@ -5,3 +5,4 @@ E:\GitHub Reps\bash-soft\BashSoft\obj\Debug\BashSoft.csprojResolveAssemblyRefere
 E:\GitHub Reps\bash-soft\BashSoft\obj\Debug\BashSoft.csproj.CoreCompileInputs.cache
 E:\GitHub Reps\bash-soft\BashSoft\obj\Debug\BashSoft.exe
 E:\GitHub Reps\bash-soft\BashSoft\obj\Debug\BashSoft.pdb
+E:\GitHub Reps\bash-soft\BashSoft\obj\Debug\BashSoft.csprojAssemblyReference.cache

@@ -114,7 +114,7 @@ public class StudentsRepository
         }
         else
         {
-            OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
+            OutputWriter.DisplayException(InvalidPathException.InvalidPath);
         }
 
     }

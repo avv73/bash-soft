@@ -29,7 +29,7 @@ public class Tester
         }
         catch (DirectoryNotFoundException dnfex)
         {
-            throw new DirectoryNotFoundException(ExceptionMessages.InvalidPath);
+            throw new InvalidPathException();
         }
     }
 

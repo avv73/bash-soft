@@ -19,7 +19,7 @@ public class Course
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(name), ExceptionMessages.NullOrEmptyValue);
+                throw new InvalidStringException(nameof(name));
             }
 
             name = value;
@@ -44,9 +44,7 @@ public class Course
     {
         if (studentsByName.ContainsKey(student.UserName))
         {
-            throw new InvalidOperationException(string.Format(
-                ExceptionMessages.StudentAlreadyEnrolledInGivenCourse,
-                student.UserName, name));
+            throw new DuplicateEntryInStructureException(student.UserName, Name);
         }
 
         studentsByName.Add(student.UserName, student);

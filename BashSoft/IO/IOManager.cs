@@ -54,7 +54,7 @@ public class IOManager
         }
         catch (ArgumentException)
         {
-            throw new ArgumentException(ExceptionMessages.ForbiddenSymbolsContainedInName);
+            throw new InvalidFileNameException();
         }
     }
 
@@ -86,7 +86,7 @@ public class IOManager
     {
         if (!Directory.Exists(absolutePath))
         {
-            throw new DirectoryNotFoundException(ExceptionMessages.InvalidPath);
+            throw new InvalidPathException();
         }
 
         SessionData.currentPath = absolutePath;

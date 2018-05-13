@@ -18,7 +18,7 @@ public class Student
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(userName), ExceptionMessages.NullOrEmptyValue);
+                throw new InvalidStringException(nameof(userName));
             }
 
             userName = value;
@@ -52,9 +52,7 @@ public class Student
     {
         if (enrolledCourses.ContainsKey(course.Name))
         {
-            throw new InvalidOperationException(string.Format(
-                ExceptionMessages.StudentAlreadyEnrolledInGivenCourse,
-                userName, course.Name));
+            throw new DuplicateEntryInStructureException(UserName, course.Name);
         }
 
         enrolledCourses.Add(course.Name, course);
@@ -64,7 +62,7 @@ public class Student
     {
         if (!enrolledCourses.ContainsKey(courseName))
         {
-            throw new InvalidOperationException(ExceptionMessages.NotEnrolledInCourse);
+            throw new CourseNotFoundException();
         }
 
         if (scores.Length > Course.NumberOfTasksOnExam)
