@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class DuplicateEntryInStructureException : Exception
+namespace BashSoft.Exceptions
 {
-    private const string DuplicateEntry = "The {0} already exists in {1}.";
+    public class DuplicateEntryInStructureException : Exception
+    {
+        private const string DuplicateEntry = "The {0} already exists in {1}.";
 
-    public DuplicateEntryInStructureException(string message) : base(message) { }
+        public DuplicateEntryInStructureException(string message) : base(message) { }
 
-    public DuplicateEntryInStructureException(string entry, string structure) : base(string.Format(DuplicateEntry, entry, structure)) { }
+        public DuplicateEntryInStructureException(string entry, string structure) : base(string.Format(DuplicateEntry, entry, structure)) { }
 
+    } 
 }
 

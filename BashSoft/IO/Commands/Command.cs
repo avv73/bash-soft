@@ -1,66 +1,72 @@
-﻿using System;
+﻿using BashSoft.Exceptions;
+using BashSoft.Judge;
+using BashSoft.Repository;
+using System;
 
-public abstract class Command
+namespace BashSoft.IO.Commands
 {
-    private string input;
-    private string[] data;
-
-    private Tester judge;
-    private StudentsRepository repository;
-    private IOManager inputOutputManager;
-
-    public Command(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+    public abstract class Command
     {
-        Input = inputI;
-        Data = dataI;
-        this.judge = judge;
-        this.repository = repository;
-        this.inputOutputManager = inputOutputManager;
-    }
+        private string input;
+        private string[] data;
 
-    protected string Input
-    {
-        get { return input; }
-        private set
+        private Tester judge;
+        private StudentsRepository repository;
+        private IOManager inputOutputManager;
+
+        public Command(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new InvalidStringException();
-            }
-
-            input = value;
+            Input = inputI;
+            Data = dataI;
+            this.judge = judge;
+            this.repository = repository;
+            this.inputOutputManager = inputOutputManager;
         }
-    }
 
-    protected string[] Data
-    {
-        get { return data; }
-        private set
+        protected string Input
         {
-            if (value == null || value.Length == 0)
+            get { return input; }
+            private set
             {
-                throw new NullReferenceException();
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new InvalidStringException();
+                }
+
+                input = value;
             }
-
-            data = value;
         }
-    }
 
-    protected Tester Judge
-    {
-        get { return judge; }
-    }
+        protected string[] Data
+        {
+            get { return data; }
+            private set
+            {
+                if (value == null || value.Length == 0)
+                {
+                    throw new NullReferenceException();
+                }
 
-    protected StudentsRepository Repository
-    {
-        get { return repository; }
-    }
+                data = value;
+            }
+        }
 
-    protected IOManager InputOutputManager
-    {
-        get { return inputOutputManager; }
-    }
+        protected Tester Judge
+        {
+            get { return judge; }
+        }
 
-    public abstract void Execute();
+        protected StudentsRepository Repository
+        {
+            get { return repository; }
+        }
+
+        protected IOManager InputOutputManager
+        {
+            get { return inputOutputManager; }
+        }
+
+        public abstract void Execute();
+    } 
 }
 

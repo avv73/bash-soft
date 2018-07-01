@@ -1,25 +1,31 @@
-﻿using System;
+﻿using BashSoft.Exceptions;
+using BashSoft.Judge;
+using BashSoft.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class ReadDatabaseCommand : Command
+namespace BashSoft.IO.Commands
 {
-    public ReadDatabaseCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager) 
-        : base(inputI, dataI, judge, repository, inputOutputManager)
+    public class ReadDatabaseCommand : Command
     {
-    }
-
-    public override void Execute()
-    {
-        if (Data.Length != 2)
+        public ReadDatabaseCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+            : base(inputI, dataI, judge, repository, inputOutputManager)
         {
-            throw new InvalidCommandException(Input);
         }
 
-        string fileName = Data[1];
-        Repository.LoadData(fileName);
-    }
+        public override void Execute()
+        {
+            if (Data.Length != 2)
+            {
+                throw new InvalidCommandException(Input);
+            }
+
+            string fileName = Data[1];
+            Repository.LoadData(fileName);
+        }
+    } 
 }
 

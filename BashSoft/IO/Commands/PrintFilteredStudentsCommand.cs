@@ -1,57 +1,63 @@
-﻿using System;
+﻿using BashSoft.Judge;
+using BashSoft.Repository;
+using BashSoft.StaticData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class PrintFilteredStudentsCommand : Command
+namespace BashSoft.IO.Commands
 {
-    public PrintFilteredStudentsCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager) 
-        : base(inputI, dataI, judge, repository, inputOutputManager)
+    public class PrintFilteredStudentsCommand : Command
     {
-    }
-
-    public override void Execute()
-    {
-        if (Data.Length != 5)
+        public PrintFilteredStudentsCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+            : base(inputI, dataI, judge, repository, inputOutputManager)
         {
-            throw new InvalidOperationException(Input);
         }
 
-        string courseName = Data[1];
-        string filter = Data[2].ToLower();
-        string takeCommand = Data[3].ToLower();
-        string takeQuantity = Data[4].ToLower();
-
-        TryParseParametersForFilterAndTake(takeCommand, takeQuantity, courseName, filter);
-    }
-
-    private void TryParseParametersForFilterAndTake(string takeCommand, string takeQuantity, string courseName, string filter)
-    {
-        if (takeCommand == "take")
+        public override void Execute()
         {
-            if (takeQuantity == "all")
+            if (Data.Length != 5)
             {
-                Repository.FilterAndTake(courseName, filter);
+                throw new InvalidOperationException(Input);
             }
-            else
+
+            string courseName = Data[1];
+            string filter = Data[2].ToLower();
+            string takeCommand = Data[3].ToLower();
+            string takeQuantity = Data[4].ToLower();
+
+            TryParseParametersForFilterAndTake(takeCommand, takeQuantity, courseName, filter);
+        }
+
+        private void TryParseParametersForFilterAndTake(string takeCommand, string takeQuantity, string courseName, string filter)
+        {
+            if (takeCommand == "take")
             {
-                int studentsToTake;
-                bool hasParsed = int.TryParse(takeQuantity, out studentsToTake);
-                if (hasParsed)
+                if (takeQuantity == "all")
                 {
-                    Repository.FilterAndTake(courseName, filter, studentsToTake);
+                    Repository.FilterAndTake(courseName, filter);
                 }
                 else
                 {
-                    OutputWriter.DisplayException(ExceptionMessages.InvalidTakeQuantityParameter);
+                    int studentsToTake;
+                    bool hasParsed = int.TryParse(takeQuantity, out studentsToTake);
+                    if (hasParsed)
+                    {
+                        Repository.FilterAndTake(courseName, filter, studentsToTake);
+                    }
+                    else
+                    {
+                        OutputWriter.DisplayException(ExceptionMessages.InvalidTakeQuantityParameter);
+                    }
                 }
             }
+            else
+            {
+                OutputWriter.DisplayException(ExceptionMessages.InvalidTakeQuantityParameter);
+            }
         }
-        else
-        {
-            OutputWriter.DisplayException(ExceptionMessages.InvalidTakeQuantityParameter);
-        }
-    }
+    } 
 }
 

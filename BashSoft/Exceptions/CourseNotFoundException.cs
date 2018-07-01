@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CourseNotFoundException : Exception
+namespace BashSoft.Exceptions
 {
-    private const string NotEnrolledInCourse = "Student must be enrolled in a course before you set his mark.";
+    public class CourseNotFoundException : Exception
+    {
+        private const string NotEnrolledInCourse = "Student must be enrolled in a course before you set his mark.";
 
-    public CourseNotFoundException() : base(NotEnrolledInCourse) { }
+        public CourseNotFoundException() : base(NotEnrolledInCourse) { }
 
-    public CourseNotFoundException(string message) : base(message) { }
+        public CourseNotFoundException(string message) : base(message) { }
+    } 
 }
 

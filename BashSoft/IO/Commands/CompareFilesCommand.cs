@@ -1,27 +1,33 @@
-﻿using System;
+﻿using BashSoft.Exceptions;
+using BashSoft.Judge;
+using BashSoft.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CompareFilesCommand : Command
+namespace BashSoft.IO.Commands
 {
-    public CompareFilesCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager) 
-        : base(inputI, dataI, judge, repository, inputOutputManager)
+    public class CompareFilesCommand : Command
     {
-    }
-
-    public override void Execute()
-    {
-        if (Data.Length != 3)
+        public CompareFilesCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+            : base(inputI, dataI, judge, repository, inputOutputManager)
         {
-            throw new InvalidCommandException(Input);
         }
 
-        string firstPath = Data[1];
-        string secondPath = Data[2];
+        public override void Execute()
+        {
+            if (Data.Length != 3)
+            {
+                throw new InvalidCommandException(Input);
+            }
 
-        Judge.CompareContent(firstPath, secondPath);
-    }
+            string firstPath = Data[1];
+            string secondPath = Data[2];
+
+            Judge.CompareContent(firstPath, secondPath);
+        }
+    } 
 }
 

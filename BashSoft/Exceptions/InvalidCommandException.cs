@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class InvalidCommandException : Exception
+namespace BashSoft.Exceptions
 {
-    private const string InvalidCommandMessage = "The command {0} is invalid";
+    public class InvalidCommandException : Exception
+    {
+        private const string InvalidCommandMessage = "The command {0} is invalid";
 
-    public InvalidCommandException(string variable) : base(string.Format(InvalidCommandMessage, variable))
-    { }
+        public InvalidCommandException(string variable) : base(string.Format(InvalidCommandMessage, variable))
+        { }
+    } 
 }
 

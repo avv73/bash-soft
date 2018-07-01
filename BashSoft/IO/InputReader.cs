@@ -1,28 +1,32 @@
-﻿using System;
+﻿using BashSoft.StaticData;
+using System;
 
-public class InputReader
+namespace BashSoft.IO
 {
-    private const string endCommand = "quit";
-    private CommandInterpreter interpreter;
-    
-    public InputReader(CommandInterpreter interpreter)
+    public class InputReader
     {
-        this.interpreter = interpreter;
-    }
+        private const string endCommand = "quit";
+        private CommandInterpreter interpreter;
 
-    public void StartReadingCommands()
-    {
-        OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
-        string input = Console.ReadLine();
-        input = input.Trim();
-
-        while (input != endCommand)
+        public InputReader(CommandInterpreter interpreter)
         {
-            interpreter.InterpretCommand(input);
-            OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
-            input = Console.ReadLine();
-            input = input.Trim();
+            this.interpreter = interpreter;
         }
-    }
+
+        public void StartReadingCommands()
+        {
+            OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
+            string input = Console.ReadLine();
+            input = input.Trim();
+
+            while (input != endCommand)
+            {
+                interpreter.InterpretCommand(input);
+                OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
+                input = Console.ReadLine();
+                input = input.Trim();
+            }
+        }
+    } 
 }
 

@@ -1,25 +1,30 @@
-﻿using System;
+﻿using BashSoft.Judge;
+using BashSoft.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class ChangeAbsolutePathCommand : Command
+namespace BashSoft.IO.Commands
 {
-    public ChangeAbsolutePathCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager) 
-        : base(inputI, dataI, judge, repository, inputOutputManager)
+    public class ChangeAbsolutePathCommand : Command
     {
-    }
-
-    public override void Execute()
-    {
-        if (Data.Length != 2)
+        public ChangeAbsolutePathCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+            : base(inputI, dataI, judge, repository, inputOutputManager)
         {
-            throw new InvalidOperationException(Input);
         }
 
-        string absolutePath = Data[1];
-        InputOutputManager.ChangeCurrentDirectoryAbsolute(absolutePath);
-    }
+        public override void Execute()
+        {
+            if (Data.Length != 2)
+            {
+                throw new InvalidOperationException(Input);
+            }
+
+            string absolutePath = Data[1];
+            InputOutputManager.ChangeCurrentDirectoryAbsolute(absolutePath);
+        }
+    } 
 }
 

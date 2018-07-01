@@ -1,25 +1,32 @@
-﻿using System;
+﻿using BashSoft.Exceptions;
+using BashSoft.Judge;
+using BashSoft.Repository;
+using BashSoft.StaticData;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class OpenFileCommand : Command
+namespace BashSoft.IO.Commands
 {
-    public OpenFileCommand(string input, string[] data, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
-        : base(input, data, judge, repository, inputOutputManager)
-    { }
-
-    public override void Execute()
+    public class OpenFileCommand : Command
     {
-        if (Data.Length != 2)
-        {
-            throw new InvalidCommandException(Input);
-        }
+        public OpenFileCommand(string input, string[] data, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+            : base(input, data, judge, repository, inputOutputManager)
+        { }
 
-        string fileName = Data[1];
-        Process.Start(SessionData.currentPath + "\\" + fileName);
-    }
+        public override void Execute()
+        {
+            if (Data.Length != 2)
+            {
+                throw new InvalidCommandException(Input);
+            }
+
+            string fileName = Data[1];
+            Process.Start(SessionData.currentPath + "\\" + fileName);
+        }
+    } 
 }
 
