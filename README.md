@@ -39,7 +39,7 @@ The project resembles a small bash-like terminal program, which has the followin
 
 ### C# OOP Advanced
 
-- [ ] Interfaces and Abstraction
+- [X] Interfaces and Abstraction
 - [ ] Generics, Iterators and Comparators
 - [ ] Reflection and Attributes
 - [ ] Unit Testing
@@ -49,4 +49,4 @@ BashSoft				  |   Progress
 :----------------:|:----------------------------:
 C# Advanced		    |![Progress](http://progressed.io/bar/100?title=completed)
 C# OOP Basics	    |![Progress](http://progressed.io/bar/100?title=completed)
-C# OOP Advanced	  |![Progress](http://progressed.io/bar/0?title=started)
+C# OOP Advanced	  |![Progress](http://progressed.io/bar/25?title=working)

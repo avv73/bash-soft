@@ -1,13 +1,14 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts;
+using BashSoft.Exceptions;
 using System;
 using System.Collections.Generic;
 
 namespace BashSoft.Models
 {
-    public class Course
+    public class SoftUniCourse : ICourse
     {
         private string name;
-        private Dictionary<string, Student> studentsByName;
+        private Dictionary<string, IStudent> studentsByName;
 
         public const int NumberOfTasksOnExam = 5;
         public const int MaxScoreOnExamTask = 100;
@@ -29,7 +30,7 @@ namespace BashSoft.Models
             }
         }
 
-        public IReadOnlyDictionary<string, Student> StudentsByName
+        public IReadOnlyDictionary<string, IStudent> StudentsByName
         {
             get
             {
@@ -37,13 +38,13 @@ namespace BashSoft.Models
             }
         }
 
-        public Course(string name)
+        public SoftUniCourse(string name)
         {
             this.name = name;
-            studentsByName = new Dictionary<string, Student>();
+            studentsByName = new Dictionary<string, IStudent>();
         }
 
-        public void EnrollStudent(Student student)
+        public void EnrollStudent(IStudent student)
         {
             if (studentsByName.ContainsKey(student.UserName))
             {

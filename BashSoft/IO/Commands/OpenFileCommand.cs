@@ -1,4 +1,5 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts;
+using BashSoft.Exceptions;
 using BashSoft.Judge;
 using BashSoft.Repository;
 using BashSoft.StaticData;
@@ -11,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
-    public class OpenFileCommand : Command
+    public class OpenFileCommand : Command, IExecutable
     {
-        public OpenFileCommand(string input, string[] data, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+        public OpenFileCommand(string input, string[] data, IContentComparer judge, IDatabase repository, IDirectoryManager inputOutputManager)
             : base(input, data, judge, repository, inputOutputManager)
         { }
 

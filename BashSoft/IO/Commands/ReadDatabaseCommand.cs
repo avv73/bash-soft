@@ -1,4 +1,5 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts;
+using BashSoft.Exceptions;
 using BashSoft.Judge;
 using BashSoft.Repository;
 using System;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
-    public class ReadDatabaseCommand : Command
+    public class ReadDatabaseCommand : Command, IExecutable
     {
-        public ReadDatabaseCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+        public ReadDatabaseCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
             : base(inputI, dataI, judge, repository, inputOutputManager)
         {
         }

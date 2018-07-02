@@ -1,4 +1,5 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts;
+using BashSoft.Exceptions;
 using BashSoft.IO.Commands;
 using BashSoft.Judge;
 using BashSoft.Repository;
@@ -8,22 +9,17 @@ using System.IO;
 
 namespace BashSoft.IO
 {
-    public class CommandInterpreter
+    public class CommandInterpreter : IInterpreter
     {
-        private Tester judge;
-        private StudentsRepository repository;
-        private IOManager inputOutputManager;
-        private Tester tester;
-        private StudentsRepository repo;
-        private IOManager ioManager;
+        private IContentComparer judge;
+        private IDatabase repository;
+        private IDirectoryManager inputOutputManager;
 
-        public CommandInterpreter(Tester tester, StudentsRepository repo, IOManager ioManager)
+        public CommandInterpreter(IContentComparer judge, IDatabase repository, IDirectoryManager inputOutputManager)
         {
-            this.tester = tester;
-            this.repo = repo;
-            this.ioManager = ioManager;
-            this.inputOutputManager = new IOManager();
-            //this.repository = new StudentsRepository(); should be declared in the constructor or not?
+            this.judge = judge;
+            this.repository = repository;
+            this.inputOutputManager = inputOutputManager;
         }
 
         public void InterpretCommand(string input)
@@ -33,16 +29,16 @@ namespace BashSoft.IO
 
             try
             {
-                Command command = ParseCommand(input, commandName, data);
+                IExecutable command = ParseCommand(input, commandName, data);
                 command.Execute();
             }
             catch (Exception ex)
             {
                 OutputWriter.DisplayException(ex.Message);
             }
-        }
+        } 
 
-        private Command ParseCommand(string input, string command, string[] data)
+        private IExecutable ParseCommand(string input, string command, string[] data)
         {
             switch (command)
             {

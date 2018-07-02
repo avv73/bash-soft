@@ -1,4 +1,5 @@
-﻿using BashSoft.Judge;
+﻿using BashSoft.Contracts;
+using BashSoft.Judge;
 using BashSoft.Repository;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
-    public class ChangeAbsolutePathCommand : Command
+    public class ChangeAbsolutePathCommand : Command, IExecutable
     {
-        public ChangeAbsolutePathCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+        public ChangeAbsolutePathCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
             : base(inputI, dataI, judge, repository, inputOutputManager)
         {
         }

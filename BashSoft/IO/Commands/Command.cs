@@ -1,20 +1,21 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts;
+using BashSoft.Exceptions;
 using BashSoft.Judge;
 using BashSoft.Repository;
 using System;
 
 namespace BashSoft.IO.Commands
 {
-    public abstract class Command
+    public abstract class Command : IExecutable
     {
         private string input;
         private string[] data;
 
-        private Tester judge;
-        private StudentsRepository repository;
-        private IOManager inputOutputManager;
+        private IContentComparer judge;
+        private IDatabase repository;
+        private IDirectoryManager inputOutputManager;
 
-        public Command(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+        public Command(string inputI, string[] dataI, IContentComparer judge, IDatabase repository, IDirectoryManager inputOutputManager)
         {
             Input = inputI;
             Data = dataI;
@@ -51,17 +52,17 @@ namespace BashSoft.IO.Commands
             }
         }
 
-        protected Tester Judge
+        protected IContentComparer Judge
         {
             get { return judge; }
         }
 
-        protected StudentsRepository Repository
+        protected IDatabase Repository
         {
             get { return repository; }
         }
 
-        protected IOManager InputOutputManager
+        protected IDirectoryManager InputOutputManager
         {
             get { return inputOutputManager; }
         }

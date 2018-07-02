@@ -1,4 +1,5 @@
-﻿using BashSoft.IO;
+﻿using BashSoft.Contracts;
+using BashSoft.IO;
 using BashSoft.StaticData;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace BashSoft.Repository
 {
-    public class RepositoryFilter
+    public class RepositoryFilter : IDataFilter
     {
         public void FilterAndTake(Dictionary<string, double> studentsWithMarks, string wantedFilter, int studentsToTake)
         {

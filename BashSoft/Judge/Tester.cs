@@ -1,4 +1,5 @@
-﻿using BashSoft.Exceptions;
+﻿using BashSoft.Contracts;
+using BashSoft.Exceptions;
 using BashSoft.IO;
 using BashSoft.StaticData;
 using System;
@@ -6,7 +7,7 @@ using System.IO;
 
 namespace BashSoft.Judge
 {
-    public class Tester
+    public class Tester : IContentComparer
     {
         private string GetMismatchPath(string expectedOutputPath)
         {

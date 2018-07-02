@@ -9,19 +9,20 @@ using BashSoft.Models;
 using BashSoft.IO;
 using BashSoft.Exceptions;
 using BashSoft.StaticData;
+using BashSoft.Contracts;
 
 namespace BashSoft.Repository
 {
-    public class StudentsRepository
+    public class StudentsRepository : IDatabase
     {
         private bool isDataInitialized = false;
-        private Dictionary<string, Course> courses;
-        private Dictionary<string, Student> students;
+        private Dictionary<string, ICourse> courses;
+        private Dictionary<string, IStudent> students;  
 
-        private RepositoryFilter filter;
-        private RepositorySorter sorter;
+        private IDataFilter filter;
+        private IDataSorter sorter;
 
-        public StudentsRepository(RepositorySorter sorter, RepositoryFilter filter)
+        public StudentsRepository(IDataSorter sorter, IDataFilter filter)
         {
             this.filter = filter;
             this.sorter = sorter;
@@ -34,8 +35,8 @@ namespace BashSoft.Repository
                 throw new InvalidOperationException(ExceptionMessages.DataAlreadyInitializedException);
             }
 
-            courses = new Dictionary<string, Course>();
-            students = new Dictionary<string, Student>();
+            courses = new Dictionary<string, ICourse>();
+            students = new Dictionary<string, IStudent>();
             OutputWriter.WriteMessageOnNewLine("Reading data...");
             ReadData(fileName);
         }
@@ -84,7 +85,7 @@ namespace BashSoft.Repository
                                 continue; // ??
                             }
 
-                            if (scores.Length > Course.NumberOfTasksOnExam)
+                            if (scores.Length > SoftUniCourse.NumberOfTasksOnExam)
                             {
                                 OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
                                 continue;
@@ -92,16 +93,16 @@ namespace BashSoft.Repository
 
                             if (!students.ContainsKey(username))
                             {
-                                students.Add(username, new Student(username));
+                                students.Add(username, new SoftUniStudent(username));
                             }
 
                             if (!courses.ContainsKey(courseName))
                             {
-                                courses.Add(courseName, new Course(courseName));
+                                courses.Add(courseName, new SoftUniCourse(courseName));
                             }
 
-                            Course course = courses[courseName];
-                            Student student = students[username];
+                            ICourse course = courses[courseName];
+                            IStudent student = students[username];
 
                             student.EnrollInCourse(course);
                             student.SetMarkOnCourse(courseName, scores);
@@ -167,13 +168,13 @@ namespace BashSoft.Repository
                 OutputWriter.PrintStudent(new KeyValuePair<string, double>(username, courses[courseName].StudentsByName[username].MarksByCourseName[courseName]));
             }
         }
-
+            
         public void GetAllStudentsFromCourse(string courseName)
         {
             if (IsQueryForCoursePossible(courseName))
             {
                 OutputWriter.WriteMessageOnNewLine($"{courseName}:");
-                foreach (KeyValuePair<string, Student> studentMarksEntry in courses[courseName].StudentsByName)
+                foreach (KeyValuePair<string, IStudent> studentMarksEntry in courses[courseName].StudentsByName)
                 {
                     GetStudentScoresFromCourse(courseName, studentMarksEntry.Key);
                 }

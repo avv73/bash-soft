@@ -1,4 +1,5 @@
-﻿using BashSoft.Judge;
+﻿using BashSoft.Contracts;
+using BashSoft.Judge;
 using BashSoft.Repository;
 using BashSoft.StaticData;
 using System;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
-    public class TraverseFoldersCommand : Command
+    public class TraverseFoldersCommand : Command, IExecutable
     {
-        public TraverseFoldersCommand(string inputI, string[] dataI, Tester judge, StudentsRepository repository, IOManager inputOutputManager)
+        public TraverseFoldersCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
             : base(inputI, dataI, judge, repository, inputOutputManager)
         {
         }
