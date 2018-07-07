@@ -10,6 +10,7 @@ using BashSoft.IO;
 using BashSoft.Exceptions;
 using BashSoft.StaticData;
 using BashSoft.Contracts;
+using BashSoft.DataStructures;
 
 namespace BashSoft.Repository
 {
@@ -209,6 +210,22 @@ namespace BashSoft.Repository
 
                 sorter.OrderAndTake(marks, givenFilter, studentsToTake.Value);
             }
+        }
+
+        public ISimpleOrderedBag<ICourse> GetAllCoursesSorted(IComparer<ICourse> cmp)
+        {
+            SimpleSortedList<ICourse> sortedCourses = new SimpleSortedList<ICourse>(cmp);
+            sortedCourses.AddAll(this.courses.Values);
+
+            return sortedCourses;
+        }
+
+        public ISimpleOrderedBag<IStudent> GetAllStudentsSorted(IComparer<IStudent> cmp)
+        {
+            SimpleSortedList<IStudent> sortedStudents = new SimpleSortedList<IStudent>(cmp);
+            sortedStudents.AddAll(this.students.Values);
+
+            return sortedStudents;
         }
     } 
 }

@@ -75,6 +75,8 @@ namespace BashSoft.IO
                 case "downloadasynch":
                     // TODO: implement soon
                     break;
+                case "display":
+                    return new DisplayCommand(input, data, this.judge, this.repository, this.inputOutputManager);
                 default:
                     throw new InvalidCommandException(input);
             }
