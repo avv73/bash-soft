@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Exceptions;
 using BashSoft.Judge;
 using BashSoft.Repository;
@@ -10,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("readdb")]
     public class ReadDatabaseCommand : Command, IExecutable
     {
-        public ReadDatabaseCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
-            : base(inputI, dataI, judge, repository, inputOutputManager)
+        [Inject]
+        private IDatabase repository;
+
+        public ReadDatabaseCommand(string inputI, string[] dataI)
+            : base(inputI, dataI)
         {
         }
 
@@ -25,7 +30,7 @@ namespace BashSoft.IO.Commands
             }
 
             string fileName = Data[1];
-            Repository.LoadData(fileName);
+            repository.LoadData(fileName);
         }
     } 
 }

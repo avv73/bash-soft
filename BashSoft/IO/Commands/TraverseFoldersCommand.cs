@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Judge;
 using BashSoft.Repository;
 using BashSoft.StaticData;
@@ -10,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("ls")]
     public class TraverseFoldersCommand : Command, IExecutable
     {
-        public TraverseFoldersCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
-            : base(inputI, dataI, judge, repository, inputOutputManager)
+        [Inject]
+        private IDirectoryManager inputOutputManager;
+
+        public TraverseFoldersCommand(string inputI, string[] dataI)
+            : base(inputI, dataI)
         {
         }
 
@@ -21,7 +26,7 @@ namespace BashSoft.IO.Commands
         {
             if (Data.Length == 1)
             {
-                InputOutputManager.TraverseDirectory(0);
+                inputOutputManager.TraverseDirectory(0);
             }
             else if (Data.Length == 2)
             {
@@ -29,7 +34,7 @@ namespace BashSoft.IO.Commands
                 bool hasParsed = int.TryParse(Data[1], out depth);
                 if (hasParsed)
                 {
-                    InputOutputManager.TraverseDirectory(depth);
+                    inputOutputManager.TraverseDirectory(depth);
                 }
                 else
                 {

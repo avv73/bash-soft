@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Judge;
 using BashSoft.Repository;
 using BashSoft.StaticData;
@@ -10,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("filter")]
     public class PrintFilteredStudentsCommand : Command, IExecutable
     {
-        public PrintFilteredStudentsCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
-            : base(inputI, dataI, judge, repository, inputOutputManager)
+        [Inject]
+        private IDatabase repository;
+
+        public PrintFilteredStudentsCommand(string inputI, string[] dataI)
+            : base(inputI, dataI)
         {
         }
 
@@ -38,7 +43,7 @@ namespace BashSoft.IO.Commands
             {
                 if (takeQuantity == "all")
                 {
-                    Repository.FilterAndTake(courseName, filter);
+                    repository.FilterAndTake(courseName, filter);
                 }
                 else
                 {
@@ -46,7 +51,7 @@ namespace BashSoft.IO.Commands
                     bool hasParsed = int.TryParse(takeQuantity, out studentsToTake);
                     if (hasParsed)
                     {
-                        Repository.FilterAndTake(courseName, filter, studentsToTake);
+                        repository.FilterAndTake(courseName, filter, studentsToTake);
                     }
                     else
                     {

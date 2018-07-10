@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Exceptions;
 using BashSoft.IO.Commands;
 using BashSoft.Judge;
@@ -6,6 +7,8 @@ using BashSoft.Repository;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace BashSoft.IO
 {
@@ -40,48 +43,35 @@ namespace BashSoft.IO
 
         private IExecutable ParseCommand(string input, string command, string[] data)
         {
-            switch (command)
+            object[] parametersForConstruction = { input, data };
+            Type typeOfCommand = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .First(type => type.GetCustomAttributes(typeof(AliasAttribute))
+                                    .Where(atr => atr.Equals(command))
+                                    .ToArray().Length > 0);
+
+            Type typeOfInterpreter = typeof(CommandInterpreter);
+
+            Command exe = (Command)Activator.CreateInstance(typeOfCommand, parametersForConstruction);
+
+            FieldInfo[] fieldsOfCommand = typeOfCommand.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo[] fieldsOfInterpreter = typeOfInterpreter.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+
+            foreach (FieldInfo fieldOfCommand in fieldsOfCommand)
             {
-                case "open":
-                    return new OpenFileCommand(input, data, judge, repository, inputOutputManager);
-                case "mkdir":
-                    return new MakeDirectoryCommand(input, data, judge, repository, inputOutputManager);
-                case "ls":
-                    return new TraverseFoldersCommand(input, data, judge, repository, inputOutputManager);
-                case "cmp":
-                    return new CompareFilesCommand(input, data, judge, repository, inputOutputManager);
-                case "cdrel":
-                    return new ChangePathRelativelyCommand(input, data, judge, repository, inputOutputManager);
-                case "cdabs":
-                    return new ChangeAbsolutePathCommand(input, data, judge, repository, inputOutputManager);
-                case "readdb":
-                    return new ReadDatabaseCommand(input, data, judge, repository, inputOutputManager);
-                case "show":
-                    return new ShowCourseCommand(input, data, judge, repository, inputOutputManager);
-                case "help":
-                    return new GetHelpCommand(input, data, judge, repository, inputOutputManager);
-                case "filter":
-                    return new PrintFilteredStudentsCommand(input, data, judge, repository, inputOutputManager);
-                case "order":
-                    return new PrintOrderedStudentsCommand(input, data, judge, repository, inputOutputManager);
-                case "dropdb":
-                    return new DropDatabaseCommand(input, data, judge, repository, inputOutputManager);
-                case "decorder":
-                    // TODO: implement soon
-                    break;
-                case "download":
-                    // TODO: implement soon
-                    break;
-                case "downloadasynch":
-                    // TODO: implement soon
-                    break;
-                case "display":
-                    return new DisplayCommand(input, data, this.judge, this.repository, this.inputOutputManager);
-                default:
-                    throw new InvalidCommandException(input);
+                Attribute atrAttribute = fieldOfCommand.GetCustomAttribute(typeof(InjectAttribute));
+                if (atrAttribute != null)
+                {
+                    if (fieldsOfInterpreter.Any(x => x.FieldType == fieldOfCommand.FieldType))
+                    {
+                        fieldOfCommand.SetValue(exe,
+                            fieldsOfInterpreter.First(x => x.FieldType == fieldOfCommand.FieldType)
+                                .GetValue(this));
+                    }
+                }
             }
 
-            throw new InvalidCommandException(input);
+            return exe;
         }
     } 
 }

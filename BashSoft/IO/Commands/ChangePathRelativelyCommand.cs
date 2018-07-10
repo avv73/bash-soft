@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Exceptions;
 using BashSoft.Judge;
 using BashSoft.Repository;
@@ -10,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("cdrel")]
     public class ChangePathRelativelyCommand : Command, IExecutable
     {
-        public ChangePathRelativelyCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
-            : base(inputI, dataI, judge, repository, inputOutputManager)
+        [Inject]
+        private IDirectoryManager inputOutputManager;
+
+        public ChangePathRelativelyCommand(string inputI, string[] dataI)
+            : base(inputI, dataI)
         {
         }
 
@@ -25,7 +30,7 @@ namespace BashSoft.IO.Commands
             }
 
             string relPath = Data[1];
-            InputOutputManager.ChangeCurrentDirectoryRelative(relPath);
+            inputOutputManager.ChangeCurrentDirectoryRelative(relPath);
         }
     } 
 }

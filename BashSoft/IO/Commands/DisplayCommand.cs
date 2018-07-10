@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -6,10 +7,14 @@ using System.Text;
 
 namespace BashSoft.IO.Commands
 {
-    class DisplayCommand : Command, IExecutable
+    [Alias("display")]
+    public class DisplayCommand : Command, IExecutable
     {
-        public DisplayCommand(string inputI, string[] dataI, IContentComparer judge, IDatabase repository, IDirectoryManager inputOutputManager)
-            : base(inputI, dataI, judge, repository, inputOutputManager)
+        [Inject]
+        private IDatabase repository;
+
+        public DisplayCommand(string inputI, string[] dataI)
+            : base(inputI, dataI)
         {
         }
 
@@ -26,13 +31,13 @@ namespace BashSoft.IO.Commands
             if (entityToDisplay.Equals("students", StringComparison.OrdinalIgnoreCase))
             {
                 IComparer<IStudent> studentComparator = this.CreateStudentComparator(sortType);
-                ISimpleOrderedBag<IStudent> list = this.Repository.GetAllStudentsSorted(studentComparator);
+                ISimpleOrderedBag<IStudent> list = this.repository.GetAllStudentsSorted(studentComparator);
                 OutputWriter.WriteMessageOnNewLine(list.JoinWith(Environment.NewLine));
             }
             else if (entityToDisplay.Equals("courses", StringComparison.OrdinalIgnoreCase))
             {
                 IComparer<ICourse> studentComparator = this.CreateCourseComparator(sortType);
-                ISimpleOrderedBag<ICourse> list = this.Repository.GetAllCoursesSorted(studentComparator);
+                ISimpleOrderedBag<ICourse> list = this.repository.GetAllCoursesSorted(studentComparator);
                 OutputWriter.WriteMessageOnNewLine(list.JoinWith(Environment.NewLine));
             }
             else

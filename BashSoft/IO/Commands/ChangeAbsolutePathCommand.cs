@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Judge;
 using BashSoft.Repository;
 using System;
@@ -9,10 +10,14 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("cdabs")]
     public class ChangeAbsolutePathCommand : Command, IExecutable
     {
-        public ChangeAbsolutePathCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
-            : base(inputI, dataI, judge, repository, inputOutputManager)
+        [Inject]
+        private IDirectoryManager inputOutputManager;
+
+        public ChangeAbsolutePathCommand(string inputI, string[] dataI)
+            : base(inputI, dataI)
         {
         }
 
@@ -24,7 +29,7 @@ namespace BashSoft.IO.Commands
             }
 
             string absolutePath = Data[1];
-            InputOutputManager.ChangeCurrentDirectoryAbsolute(absolutePath);
+            inputOutputManager.ChangeCurrentDirectoryAbsolute(absolutePath);
         }
     } 
 }

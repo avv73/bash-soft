@@ -1,4 +1,5 @@
-﻿using BashSoft.Contracts;
+﻿using BashSoft.Attributes;
+using BashSoft.Contracts;
 using BashSoft.Exceptions;
 using BashSoft.Judge;
 using BashSoft.Repository;
@@ -10,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace BashSoft.IO.Commands
 {
+    [Alias("cmp")]
     public class CompareFilesCommand : Command, IExecutable
     {
-        public CompareFilesCommand(string inputI, string[] dataI, IContentComparer  judge, IDatabase repository, IDirectoryManager inputOutputManager)
-            : base(inputI, dataI, judge, repository, inputOutputManager)
+        [Inject]
+        private IContentComparer judge;
+
+        public CompareFilesCommand(string inputI, string[] dataI)
+            : base(inputI, dataI)
         {
         }
 
@@ -27,7 +32,7 @@ namespace BashSoft.IO.Commands
             string firstPath = Data[1];
             string secondPath = Data[2];
 
-            Judge.CompareContent(firstPath, secondPath);
+            judge.CompareContent(firstPath, secondPath);
         }
     } 
 }
