@@ -49,4 +49,4 @@ BashSoft				  |   Progress
 :----------------:|:----------------------------:
 C# Advanced		    |![Progress](http://progressed.io/bar/100?title=completed)
 C# OOP Basics	    |![Progress](http://progressed.io/bar/100?title=completed)
-C# OOP Advanced	  |![Progress](http://progressed.io/bar/100?title=working)
+C# OOP Advanced	  |![Progress](http://progressed.io/bar/100?title=completed)
